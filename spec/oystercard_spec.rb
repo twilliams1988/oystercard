@@ -35,16 +35,24 @@ describe OysterCard do
 
  describe '#touch_in' do
    it 'can touch in' do
-   subject.touch_in
-   expect(subject).to be_in_journey
+     subject.top_up(2)
+     subject.touch_in
+     expect(subject).to be_in_journey
    end
- end
 
- describe '#touch_out' do
-   it 'sets in_journey to false' do
-   subject.touch_in
-   subject.touch_out
-   expect(subject).not_to be_in_journey
+
+  describe '#touch_out' do
+    it 'sets in_journey to false' do
+      subject.top_up(2)
+      subject.touch_in
+      subject.touch_out
+      expect(subject).not_to be_in_journey
+    end
+  end
+
+   it 'won\'t allow touch_in if balance is below min fare' do
+     minfareerror = 'Your balance £0 does not meet min fare'
+     expect {subject.touch_in}.to raise_error minfareerror
    end
  end
 
