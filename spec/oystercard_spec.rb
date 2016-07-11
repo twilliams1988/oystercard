@@ -3,6 +3,7 @@ require 'oystercard'
 describe OysterCard do
 
   subject(:oystercard) { described_class.new }
+  let(:station) {double(:station)}
 
   describe '#initialize' do
 
@@ -35,28 +36,35 @@ describe OysterCard do
 
   # before do
   #   subject.top_up(10)
-  #   subject.touch_in
+  #   subject.touch_in(station)
   # end
 
  describe '#touch_in' do
    it 'can touch in' do
    subject.top_up(10)
-   subject.touch_in
+   subject.touch_in(station)
    expect(subject).to be_in_journey
+   end
+
+   it 'stores the entry station' do
+     subject.top_up(10)
+     expect {subject.touch_in(station)}.to change {subject.entry_station}.to eq station
+
    end
  end
 
  describe '#touch_out' do
+
    it 'sets in_journey to false' do
    subject.top_up(10)
-   subject.touch_in
+   subject.touch_in(station)
    subject.touch_out
    expect(subject).not_to be_in_journey
    end
 
    it 'deducts £4 from balance on touch out' do
    subject.top_up(10)
-   subject.touch_in
+   subject.touch_in(station)
    expect {subject.touch_out}.to change {subject.balance}.by(-OysterCard::MIN_FARE)
    end
 
