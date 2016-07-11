@@ -23,7 +23,11 @@ DEPENDENCIES
   rspec
 
 RUBY VERSION
+<<<<<<< HEAD
    ruby 2.2.3p173
+=======
+   ruby 2.3.0p0
+>>>>>>> ad47a1e4cc2f04696a83f09fe15b547f38e1039a
 
 BUNDLED WITH
    1.12.5
