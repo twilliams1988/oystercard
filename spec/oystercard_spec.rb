@@ -27,33 +27,39 @@ describe OysterCard do
     end
   end
 
-  describe '#deduct' do
-    it 'decreases the balance amount by the deduct value' do
-    expect {subject.deduct(5)}.to change {subject.balance}.by -5
-    end
-  end
+  # describe '#deduct' do
+  #   it 'decreases the balance amount by the deduct value' do
+  #   expect {subject.deduct(5)}.to change {subject.balance}.by -5
+  #   end
+  # end
+
+  # before do
+  #   subject.top_up(10)
+  #   subject.touch_in
+  # end
 
  describe '#touch_in' do
    it 'can touch in' do
-     subject.top_up(2)
-     subject.touch_in
-     expect(subject).to be_in_journey
+   subject.top_up(10)
+   subject.touch_in
+   expect(subject).to be_in_journey
+   end
+ end
+
+ describe '#touch_out' do
+   it 'sets in_journey to false' do
+   subject.top_up(10)
+   subject.touch_in
+   subject.touch_out
+   expect(subject).not_to be_in_journey
    end
 
-
-  describe '#touch_out' do
-    it 'sets in_journey to false' do
-      subject.top_up(2)
-      subject.touch_in
-      subject.touch_out
-      expect(subject).not_to be_in_journey
-    end
-  end
-
-   it 'won\'t allow touch_in if balance is below min fare' do
-     minfareerror = 'Your balance £0 does not meet min fare'
-     expect {subject.touch_in}.to raise_error minfareerror
+   it 'deducts £4 from balance on touch out' do
+   subject.top_up(10)
+   subject.touch_in
+   expect {subject.touch_out}.to change {subject.balance}.by(-OysterCard::MIN_FARE)
    end
+
  end
 
 end
