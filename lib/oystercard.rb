@@ -1,10 +1,8 @@
-
-
-class Oystercard 
+class Oystercard
     DEFAULT_BALANCE = 0
     MAXIMUM_BALANCE = 90
     attr_reader :balance
-    
+
     def initialize(balance = DEFAULT_BALANCE)
         @balance = balance
     end
@@ -13,5 +11,9 @@ class Oystercard
         @balance += amount
         @balance
     end
-        
+    def deduct(amount)
+        @balance -= amount
+        @balance
+    end
+
 end

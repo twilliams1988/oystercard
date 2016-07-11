@@ -23,13 +23,13 @@ The true stack trace error is:
 ```
 /home/ubuntu/workspace/spec/oystercard_spec.rb:1:in `<top (required)>': uninitialized constant Oystercard (NameError)
 ```
-Line error occuring in : ```/home/ubuntu/workspace/spec/oystercard_spec.rb:1:``` 
+Line error occuring in : ```/home/ubuntu/workspace/spec/oystercard_spec.rb:1:```
 
 Error solution:
 
 create a class in oystercard.rb :
 ```
-class Oystercard 
+class Oystercard
 end
 ```
 
@@ -44,7 +44,8 @@ end
 |-:|:-:|
 |Customer||
 |Card|top_up|
-
-
-
-
+**Q.3**
+|Objects|Messages|
+|-:|:-:|
+|Customer||
+|Card|deduct|
