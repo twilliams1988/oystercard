@@ -68,6 +68,12 @@ describe OysterCard do
    expect {subject.touch_out}.to change {subject.balance}.by(-OysterCard::MIN_FARE)
    end
 
+   it 'makes card forget entry station' do
+     subject.top_up(10)
+     subject.touch_in(station)
+     expect {subject.touch_out}.to change {subject.entry_station}.to eq nil 
+   end
+
  end
 
 end
