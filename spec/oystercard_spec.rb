@@ -9,6 +9,10 @@ describe OysterCard do
     it 'has an initial balance of 0' do
       expect(subject.balance).to eq 0
     end
+
+    it 'is initially not in a journey' do
+      expect(subject).not_to be_in_journey
+    end
   end
 
   describe '#top_up' do
@@ -25,8 +29,23 @@ describe OysterCard do
 
   describe '#deduct' do
     it 'decreases the balance amount by the deduct value' do
-    expect {subject.deduct(5)}.to change {subject.balance}.by -5  
+    expect {subject.deduct(5)}.to change {subject.balance}.by -5
     end
   end
+
+ describe '#touch_in' do
+   it 'can touch in' do
+   subject.touch_in
+   expect(subject).to be_in_journey
+   end
+ end
+
+ describe '#touch_out' do
+   it 'sets in_journey to false' do
+   subject.touch_in
+   subject.touch_out
+   expect(subject).not_to be_in_journey
+   end
+ end
 
 end
