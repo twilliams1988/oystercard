@@ -71,9 +71,18 @@ describe OysterCard do
    it 'makes card forget entry station' do
      subject.top_up(10)
      subject.touch_in(station)
-     expect {subject.touch_out}.to change {subject.entry_station}.to eq nil 
+     expect {subject.touch_out}.to change {subject.entry_station}.to eq nil
    end
 
  end
+
+ describe '#in_journey' do
+   it 'returns true if an entry station is set' do
+     subject.top_up(10)
+     subject.touch_in(station)
+     expect(subject.in_journey?).to eq true
+   end
+ end
+
 
 end
