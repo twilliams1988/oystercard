@@ -2,6 +2,7 @@ require 'oystercard'
 
 describe Oystercard do
   let(:card_with_money) { Oystercard.new(10) }
+  let(:station) { double(:station) }
 
     it 'tells your balance is 0' do
         expect(subject.balance).to eq 0
@@ -19,12 +20,15 @@ describe Oystercard do
    end
 
   describe '#touch_in' do
-
     it 'starts the journey' do
-      expect(card_with_money.touch_in).to eq true
+      expect(card_with_money.touch_in(station)).to eq station
     end
     it 'raises error if balance less than £1 while touching in' do
-      expect{subject.touch_in}.to raise_error 'Insufficient balance'
+      expect{subject.touch_in(station)}.to raise_error 'Insufficient balance'
+    end
+    it 'remembers the entry station' do
+      card_with_money.touch_in(station)
+      expect(card_with_money.entry_station).to eq station
     end
   end
 
@@ -34,8 +38,13 @@ describe Oystercard do
       expect(subject).not_to be_in_journey
     end
     it 'charges the user when touching out' do
-      card_with_money.touch_in
+      card_with_money.touch_in(station)
       expect { card_with_money.touch_out }.to change {card_with_money.balance}.by(-Oystercard::MINIMUM_FARE)
+    end
+    it 'forgets the entry station on touch out' do
+      card_with_money.touch_in(station)
+      card_with_money.touch_out
+      expect(card_with_money.entry_station).to eq nil
     end
   end
 
@@ -44,11 +53,11 @@ describe Oystercard do
       expect(subject).not_to be_in_journey
     end
     it 'checks if the user is in journey' do
-      card_with_money.touch_in
+      card_with_money.touch_in(station)
       expect(card_with_money).to be_in_journey
     end
     it 'checks if the user isn\'t in journey' do
-      card_with_money.touch_in
+      card_with_money.touch_in(station)
       card_with_money.touch_out
       expect(card_with_money).not_to be_in_journey
     end
