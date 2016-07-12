@@ -8,7 +8,7 @@ class Oystercard
         @in_journey = false
     end
     def top_up(amount)
-        fail "card limited to £90" if (@balance+amount)>MAXIMUM_BALANCE
+        fail "Card limited to £90" if (@balance+amount)>MAXIMUM_BALANCE
         @balance += amount
         @balance
     end
@@ -18,6 +18,7 @@ class Oystercard
     end
 
     def touch_in
+      fail 'Insufficient balance' if @balance < 1
       @in_journey = true
     end
 
