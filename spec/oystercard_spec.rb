@@ -8,7 +8,7 @@ describe Oystercard do
     end
   describe '#top_up' do
    it 'tells you when you top up' do
-       expect{subject.top_up(1)}.to change{subject.balance}.by(1)
+       expect{subject.top_up(Oystercard::MINIMUM_FARE)}.to change{subject.balance}.by(Oystercard::MINIMUM_FARE)
       end
    end
 
@@ -17,13 +17,6 @@ describe Oystercard do
        card = Oystercard.new(maximum_balance)
        expect{card.top_up(maximum_balance)}.to raise_error "Card limited to £#{maximum_balance}"
    end
-
-  describe '#deduct' do
-    it 'deducts that fare' do
-      card = Oystercard.new(Oystercard::MAXIMUM_BALANCE)
-      expect{card.deduct(1)}.to change{card.balance}.by(-1)
-    end
-  end
 
   describe '#touch_in' do
 
@@ -37,7 +30,12 @@ describe Oystercard do
 
   describe '#touch_out' do
     it 'end the journey' do
-      expect(subject.touch_out).to eq false
+      subject.touch_out
+      expect(subject).not_to be_in_journey
+    end
+    it 'charges the user when touching out' do
+      card_with_money.touch_in
+      expect { card_with_money.touch_out }.to change {card_with_money.balance}.by(-Oystercard::MINIMUM_FARE)
     end
   end
 
