@@ -18,7 +18,7 @@ class OysterCard
   end
 
   def in_journey?
-    !!entry_station
+    !@journey.empty?
   end
 
   def touch_in(entry_station)
@@ -30,7 +30,7 @@ class OysterCard
     deduct(MIN_FARE)
     @journey[:exit_station] = exit_station
     @journey_history << @journey
-
+    @journey = {}
   end
 
   def get_history
