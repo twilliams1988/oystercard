@@ -8,11 +8,11 @@ attr_reader :entry_station, :exit_station
   end
 
   def complete?
-    !! @exit_station
+    @exit_station && @entry_station
   end
 
   def fare
-    ! @exit_station ? PENALTY_FARE : MINIMUM_FARE
+    !self.complete? ? PENALTY_FARE : MINIMUM_FARE
   end
 
   def finish(station)

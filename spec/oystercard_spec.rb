@@ -1,10 +1,12 @@
 require 'oystercard'
+require 'journey'
 
 describe Oystercard do
   let(:card_with_money) { Oystercard.new(10) }
   let(:station) { double(:station) }
   let(:entry_station) { double(:station) }
   let(:exit_station) { double(:station) }
+  let(:journey) {double(:journey)}
 
     it 'tells your balance is 0' do
         expect(subject.balance).to eq 0
@@ -23,7 +25,7 @@ describe Oystercard do
 
   describe '#touch_in' do
     it 'starts the journey' do
-      expect(card_with_money.touch_in(station)).to eq station
+      expect(card_with_money.touch_in(station)).to eq card_with_money.current_journey
     end
     it 'raises error if balance less than £1 while touching in' do
       expect{subject.touch_in(station)}.to raise_error 'Insufficient balance'
@@ -36,8 +38,9 @@ describe Oystercard do
 
   describe '#touch_out' do
     it 'end the journey' do
-      subject.touch_out(station)
-      expect(subject).not_to be_in_journey
+      card_with_money.touch_in(station)
+      card_with_money.touch_out(station)
+      expect(card_with_money).not_to be_in_journey
     end
     it 'charges the user when touching out' do
       card_with_money.touch_in(station)
