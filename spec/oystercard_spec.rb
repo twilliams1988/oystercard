@@ -3,6 +3,9 @@ require 'oystercard'
 describe Oystercard do
   let(:card_with_money) { Oystercard.new(10) }
   let(:station) { double(:station) }
+  let(:entry_station) { double(:station) }
+  let(:exit_station) { double(:station) }
+  let(:journey) { {entry_station: entry_station, exit_station: exit_station} }
 
     it 'tells your balance is 0' do
         expect(subject.balance).to eq 0
@@ -34,16 +37,16 @@ describe Oystercard do
 
   describe '#touch_out' do
     it 'end the journey' do
-      subject.touch_out
+      subject.touch_out(station)
       expect(subject).not_to be_in_journey
     end
     it 'charges the user when touching out' do
       card_with_money.touch_in(station)
-      expect { card_with_money.touch_out }.to change {card_with_money.balance}.by(-Oystercard::MINIMUM_FARE)
+      expect { card_with_money.touch_out(station) }.to change {card_with_money.balance}.by(-Oystercard::MINIMUM_FARE)
     end
     it 'forgets the entry station on touch out' do
       card_with_money.touch_in(station)
-      card_with_money.touch_out
+      card_with_money.touch_out(station)
       expect(card_with_money.entry_station).to eq nil
     end
   end
@@ -58,8 +61,19 @@ describe Oystercard do
     end
     it 'checks if the user isn\'t in journey' do
       card_with_money.touch_in(station)
-      card_with_money.touch_out
+      card_with_money.touch_out(station)
       expect(card_with_money).not_to be_in_journey
+    end
+  end
+
+  describe '#journeys' do
+    it 'has an empty list of journeys as default' do
+      expect(subject.journeys).to be_empty
+    end
+    it 'returns a users journey as a hash' do
+      card_with_money.touch_in(entry_station)
+      card_with_money.touch_out(exit_station)
+      expect(card_with_money.journeys).to include journey
     end
   end
 end
