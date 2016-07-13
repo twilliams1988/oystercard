@@ -4,5 +4,5 @@ ruby '2.3.1'
 
 group :development, :test do
   gem 'rspec'
-  gem "nyan-cat-formatter"
+#  gem "nyan-cat-formatter"
 end

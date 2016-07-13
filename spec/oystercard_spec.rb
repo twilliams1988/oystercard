@@ -4,8 +4,10 @@ describe OysterCard do
 
 
   subject(:oystercard) { described_class.new }
-  let(:entry_station) { double :station }
-  let(:exit_station) { double :station }
+  let(:entry_station) { double :entry_station }
+  let(:exit_station) { double :exit_station }
+  let(:journey){ {entry_station => exit_station} }
+
 
   describe '#initialize' do
 
@@ -36,7 +38,8 @@ describe OysterCard do
 
    it 'stores the entry station' do
      subject.top_up(10)
-     expect {subject.touch_in(entry_station)}.to change {subject.entry_station}.to eq entry_station
+     subject.touch_in(entry_station)
+     expect(subject.entry_station).to eq entry_station
 
    end
  end
@@ -70,13 +73,13 @@ describe OysterCard do
  end
 
 describe 'get_history' do
-     let(:journey){ {entry_station: entry_station, exit_station: exit_station} }
 
  it 'returns journey history' do
+
    subject.top_up(10)
    subject.touch_in(entry_station)
    subject.touch_out(exit_station)
-   expect (subject.journey_history).to include journey
+   expect(subject.journey_history).to include journey
 
  end
 
