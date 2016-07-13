@@ -23,13 +23,12 @@ class OysterCard
 
   def touch_in(entry_station)
     fail "Your balance £#{balance} does not meet min fare" if balance < MIN_FARE
-    @journey[:entry_station] = 0
-
+    @entry_station = entry_station
   end
 
   def touch_out(exit_station)
     deduct(MIN_FARE)
-    @journey[:entry_station] = exit_station
+    @journey = {entry_station => exit_station}
     @journey_history << @journey
   end
 

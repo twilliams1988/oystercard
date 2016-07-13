@@ -6,7 +6,7 @@ describe OysterCard do
   subject(:oystercard) { described_class.new }
   let(:entry_station) { double :entry_station }
   let(:exit_station) { double :exit_station }
-  let(:journey){ {:entry_station => exit_station} }
+  let(:journey){ {entry_station => exit_station} }
 
 
   describe '#initialize' do
