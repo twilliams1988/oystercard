@@ -9,7 +9,7 @@ class OysterCard
     @balance = 0
     @journey_history = []
     @journey = {}
-#
+
   end
 
   def top_up(amount)
@@ -23,13 +23,14 @@ class OysterCard
 
   def touch_in(entry_station)
     fail "Your balance £#{balance} does not meet min fare" if balance < MIN_FARE
-    @entry_station = entry_station
+    @journey[:entry_station] = entry_station
   end
 
   def touch_out(exit_station)
     deduct(MIN_FARE)
-    @journey = {entry_station => exit_station}
+    @journey[:exit_station] = exit_station
     @journey_history << @journey
+
   end
 
   def get_history
