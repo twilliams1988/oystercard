@@ -6,13 +6,14 @@ describe OysterCard do
   subject(:oystercard) { described_class.new }
   let(:entry_station) { double :entry_station }
   let(:exit_station) { double :exit_station }
-  let(:journey){ {entry_station => exit_station} }
+  let(:journey){ {:entry_station => exit_station} }
 
 
   describe '#initialize' do
 
     it 'has an initial balance of 0' do
-      expect(subject.balance).to eq 0
+      card = OysterCard.new
+      expect(card.balance).to eq 0
     end
 
   end
@@ -29,62 +30,33 @@ describe OysterCard do
     end
   end
 
+  before(:each) do
+    subject.top_up(10)
+    subject.touch_in(entry_station)
+  end
+
  describe '#touch_in' do
    it 'can touch in' do
-   subject.top_up(10)
-   subject.touch_in(entry_station)
-   #expect(subject).to be_in_journey
    end
 
-   it 'stores the entry station' do
-     subject.top_up(10)
-     subject.touch_in(entry_station)
-     expect(subject.entry_station).to eq entry_station
-
-   end
  end
 
  describe '#touch_out' do
 
-  #  it 'sets in_journey? to false' do
-  #  subject.top_up(10)
-  #  subject.touch_in(entry_station)
-  #  expect{subject.touch_out(exit_station).to eq exit_station
-  #  end
-
    it 'deducts £1 from balance on touch out' do
-   subject.top_up(10)
-   subject.touch_in(entry_station)
    expect {subject.touch_out(exit_station)}.to change {subject.balance}.by(-OysterCard::MIN_FARE)
    end
 
-  #  it 'makes card forget entry station' do
-  #    subject.top_up(10)
-  #    subject.touch_in(entry_station)
-  #    expect {subject.touch_out(exit_station)}.to change {subject.entry_station}.to eq nil
-  #  end
-
-   it 'can remember the exit station' do
-   subject.top_up(10)
-   subject.touch_in(entry_station)
-   subject.touch_out(exit_station)
-   expect(subject.exit_station).to eq exit_station
- end
  end
 
 describe 'get_history' do
 
  it 'returns journey history' do
-
-   subject.top_up(10)
-   subject.touch_in(entry_station)
    subject.touch_out(exit_station)
    expect(subject.journey_history).to include journey
 
  end
 
 end
-
-
 
 end
