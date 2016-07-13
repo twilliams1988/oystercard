@@ -2,8 +2,10 @@ require 'oystercard'
 
 describe OysterCard do
 
+
   subject(:oystercard) { described_class.new }
-  let(:station) {double(:station)}
+  let(:entry_station) { double :station }
+  let(:exit_station) { double :station }
 
   describe '#initialize' do
 
@@ -11,9 +13,6 @@ describe OysterCard do
       expect(subject.balance).to eq 0
     end
 
-    # it 'is initially not in a journey' do
-    #   expect(subject).not_to be_in_journey
-    # end
   end
 
   describe '#top_up' do
@@ -28,52 +27,61 @@ describe OysterCard do
     end
   end
 
-  # describe '#deduct' do
-  #   it 'decreases the balance amount by the deduct value' do
-  #   expect {subject.deduct(5)}.to change {subject.balance}.by -5
-  #   end
-  # end
-
-  # before do
-  #   subject.top_up(10)
-  #   subject.touch_in(station)
-  # end
-
  describe '#touch_in' do
    it 'can touch in' do
    subject.top_up(10)
-   subject.touch_in(station)
+   subject.touch_in(entry_station)
    #expect(subject).to be_in_journey
    end
 
    it 'stores the entry station' do
      subject.top_up(10)
-     expect {subject.touch_in(station)}.to change {subject.entry_station}.to eq station
+     expect {subject.touch_in(entry_station)}.to change {subject.entry_station}.to eq entry_station
 
    end
  end
 
  describe '#touch_out' do
 
-   it 'sets in_journey? to false' do
+  #  it 'sets in_journey? to false' do
+  #  subject.top_up(10)
+  #  subject.touch_in(entry_station)
+  #  expect{subject.touch_out(exit_station).to eq exit_station
+  #  end
+
+   it 'deducts £1 from balance on touch out' do
    subject.top_up(10)
-   subject.touch_in(station)
-   expect{subject.touch_out}.to change {subject.entry_station}.to eq nil
+   subject.touch_in(entry_station)
+   expect {subject.touch_out(exit_station)}.to change {subject.balance}.by(-OysterCard::MIN_FARE)
    end
 
-   it 'deducts £4 from balance on touch out' do
-   subject.top_up(10)
-   subject.touch_in(station)
-   expect {subject.touch_out}.to change {subject.balance}.by(-OysterCard::MIN_FARE)
-   end
+  #  it 'makes card forget entry station' do
+  #    subject.top_up(10)
+  #    subject.touch_in(entry_station)
+  #    expect {subject.touch_out(exit_station)}.to change {subject.entry_station}.to eq nil
+  #  end
 
-   it 'makes card forget entry station' do
-     subject.top_up(10)
-     subject.touch_in(station)
-     expect {subject.touch_out}.to change {subject.entry_station}.to eq nil
-   end
+   it 'can remember the exit station' do
+   subject.top_up(10)
+   subject.touch_in(entry_station)
+   subject.touch_out(exit_station)
+   expect(subject.exit_station).to eq exit_station
+ end
+ end
+
+describe 'get_history' do
+     let(:journey){ {entry_station: entry_station, exit_station: exit_station} }
+
+ it 'returns journey history' do
+   subject.top_up(10)
+   subject.touch_in(entry_station)
+   subject.touch_out(exit_station)
+   expect (subject.journey_history).to include journey
 
  end
+
+end
+
 
 
 end
