@@ -5,7 +5,6 @@ describe Oystercard do
   let(:station) { double(:station) }
   let(:entry_station) { double(:station) }
   let(:exit_station) { double(:station) }
-  let(:journey) { {entry_station: entry_station, exit_station: exit_station} }
 
     it 'tells your balance is 0' do
         expect(subject.balance).to eq 0
@@ -66,14 +65,5 @@ describe Oystercard do
     end
   end
 
-  describe '#journeys' do
-    it 'has an empty list of journeys as default' do
-      expect(subject.journeys).to be_empty
-    end
-    it 'returns a users journey as a hash' do
-      card_with_money.touch_in(entry_station)
-      card_with_money.touch_out(exit_station)
-      expect(card_with_money.journeys).to include journey
-    end
-  end
+
 end
