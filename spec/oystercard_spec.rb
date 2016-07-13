@@ -11,9 +11,9 @@ describe OysterCard do
       expect(subject.balance).to eq 0
     end
 
-    it 'is initially not in a journey' do
-      expect(subject).not_to be_in_journey
-    end
+    # it 'is initially not in a journey' do
+    #   expect(subject).not_to be_in_journey
+    # end
   end
 
   describe '#top_up' do
@@ -43,7 +43,7 @@ describe OysterCard do
    it 'can touch in' do
    subject.top_up(10)
    subject.touch_in(station)
-   expect(subject).to be_in_journey
+   #expect(subject).to be_in_journey
    end
 
    it 'stores the entry station' do
@@ -55,12 +55,12 @@ describe OysterCard do
 
  describe '#touch_out' do
 
-   it 'sets in_journey to false' do
-   subject.top_up(10)
-   subject.touch_in(station)
-   subject.touch_out
-   expect(subject).not_to be_in_journey
-   end
+   #it 'sets in_journey to false' do
+   #subject.top_up(10)
+   #subject.touch_in(station)
+   #subject.touch_out
+   #expect(subject).not_to be_in_journey
+   #end
 
    it 'deducts £4 from balance on touch out' do
    subject.top_up(10)
@@ -76,13 +76,13 @@ describe OysterCard do
 
  end
 
- describe '#in_journey' do
-   it 'returns true if an entry station is set' do
-     subject.top_up(10)
-     subject.touch_in(station)
-     expect(subject.in_journey?).to eq true
-   end
- end
+ # describe '#in_journey' do
+ #   it 'returns true if an entry station is set' do
+ #     subject.top_up(10)
+ #     subject.touch_in(station)
+ #     expect(subject.in_journey?).to eq true
+ #   end
+ # end
 
 
 end

@@ -1,4 +1,4 @@
-require '/Users/Suse/Documents/Coding/week2/oystercard/lib/oystercard'
+require 'oystercard'
 
 describe 'feature test' do
 

@@ -7,7 +7,7 @@ class OysterCard
 
   def initialize
     @balance = 0
-    @in_journey = false
+#    @in_journey = false
 
   end
 
@@ -16,19 +16,19 @@ class OysterCard
     @balance += amount
   end
 
-  def in_journey?
-    @in_journey
-  end
+#  def in_journey?
+#    @in_journey
+#  end
 
   def touch_in(station)
     fail "Your balance £#{balance} does not meet min fare" if balance < MIN_FARE
-    @in_journey = true
+#    @in_journey = true
     @entry_station = station
   end
 
   def touch_out
     deduct(MIN_FARE)
-    @in_journey = false
+#    @in_journey = false
     @entry_station = nil
   end
 
