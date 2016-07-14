@@ -52,7 +52,7 @@ describe OysterCard do
    end
 
    it 'deducts £1 from balance on touch out' do
-   expect {subject.touch_out(exit_station)}.to change {subject.balance}.by(-OysterCard::MIN_FARE)
+   expect {subject.touch_out(exit_station)}.to change {subject.balance}.by(-Journey::MIN_FARE)
    end
 
  end

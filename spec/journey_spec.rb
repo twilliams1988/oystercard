@@ -30,8 +30,18 @@ end
 
 describe '#finish' do
   it 'sets @exit_station to the argument passed' do
-    expect(subject.finish(exit_station)).to eq exit_station
+    expect(subject.finish(exit_station)).to eq subject.exit_station
   end
+
+context 'given an exit_station' do
+  before do
+    subject.finish(exit_station)
+  end
+
+  it 'calculates the journey fare' do
+    expect(subject.fare).to eq 1
+  end
+end
 
 end
 
