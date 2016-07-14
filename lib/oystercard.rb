@@ -1,3 +1,6 @@
+require_relative 'station'
+require_relative 'journey'
+
 class OysterCard
 
   MAX_LIMIT = 90
