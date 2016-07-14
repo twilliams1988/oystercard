@@ -22,7 +22,9 @@ class OysterCard
   end
 
   def touch_in(entry_station)
-    fail "Your balance £#{balance} does not meet min fare" if balance < MIN_FARE
+    fail "Your balance does not meet min fare" if balance < MIN_FARE
+    @journey_history << @journey if @journey.has_key? :entry_station
+    @journey = {}
     @journey[:entry_station] = entry_station
   end
 

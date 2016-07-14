@@ -7,6 +7,7 @@ describe OysterCard do
   let(:entry_station) { double :entry_station }
   let(:exit_station) { double :exit_station }
   let(:journey){ {:entry_station => entry_station, :exit_station => exit_station} }
+  let(:halfjourney) { {:entry_station => entry_station} }
 
 
   describe '#initialize' do
@@ -30,18 +31,25 @@ describe OysterCard do
     end
   end
 
-  before(:each) do
-    subject.top_up(10)
-    subject.touch_in(entry_station)
+  describe '#touch_in' do
+    it 'raises error if balance is too low' do
+      expect {subject.touch_in("Liverpool Street")}.to raise_error "Your balance does not meet min fare"
+    end
+    it "checks if our current journey only contains an entry_station it pushes it to the journey_history" do
+      subject.top_up(10)
+      subject.touch_in(entry_station)
+      subject.touch_in(entry_station)
+      expect(subject.journey_history).to include halfjourney
+    end
   end
 
- describe '#touch_in' do
-   it 'can touch in' do
-   end
-
- end
 
  describe '#touch_out' do
+
+   before do
+     subject.top_up(10)
+     subject.touch_in(entry_station)
+   end
 
    it 'deducts £1 from balance on touch out' do
    expect {subject.touch_out(exit_station)}.to change {subject.balance}.by(-OysterCard::MIN_FARE)
@@ -50,6 +58,11 @@ describe OysterCard do
  end
 
 describe 'get_history' do
+
+  before do
+    subject.top_up(10)
+    subject.touch_in(entry_station)
+  end
 
  it 'returns journey history' do
    subject.touch_out(exit_station)
