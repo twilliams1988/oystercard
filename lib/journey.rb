@@ -4,10 +4,9 @@ class Journey
   MIN_FARE = 1
 
 
-  attr_reader :journey, :entry_station, :exit_station
+  attr_reader :entry_station, :exit_station
 
   def initialize(entry_station = nil)
-    @journey = {}
     @entry_station = entry_station
     @exit_station = nil
   end
