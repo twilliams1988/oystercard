@@ -15,25 +15,26 @@ describe JourneyLog do
       subject.start(station)
     end
 
-    it 'records a journey' do
-      allow(journey_class).to receive(:new).and_return journey
-      subject.start(station)
-      expect(subject.journeys).to include journey
-    end
-
   end
 
   describe '#finish' do
 
     it { is_expected.to respond_to(:finish).with(1).argument }
 
-    it 'finishes a journey by adding exit station and setting to nil' do
+    it 'finishes a journey' do
       subject.start(station)
+      expect(journey).to receive(:finish).with(exit_station: station)
       subject.finish(station)
-      expect(subject.journeys).to include journey
     end
 
+    it 'logs the current journey' do
+      journey = JourneyLog.new(journey_class: Journey)
+      journey.start(station)
+      expect {journey.finish(station)}.to change {journey.log.length}.by 1
+      journey.start(station)
+      expect {journey.finish(station)}.to change {journey.log.length}.by 1
+      expect(journey.log.length).to eq 2
+    end
   end
-
 
 end

@@ -15,6 +15,10 @@ class Journey
     !! @exit_station && @entry_station
   end
 
+  def in_progress?
+    !!@entry_station
+  end
+
   def fare
     self.complete? ? MIN_FARE : PENALTY_FARE
   end

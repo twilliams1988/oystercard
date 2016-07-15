@@ -6,12 +6,11 @@ class OysterCard
 
   MAX_LIMIT = 90
 
-  attr_reader :balance, :entry_station, :exit_station, :journey_history, :journey, :voyage
+  attr_reader :balance, :journey
 
   def initialize
     @balance = 0
-    @journey_history = []
-    @journey = {}
+    @log = JourneyLog.new
 
   end
 
@@ -26,21 +25,15 @@ class OysterCard
 
   def touch_in(entry_station)
     fail "Your balance does not meet min fare" if balance < Journey::MIN_FARE
-    deduct(@voyage.fare) if !@journey.empty?
-    @voyage = Journey.new(entry_station)
-    @journey_history << @journey if @journey.has_key? :entry_station
-    @journey = {}
-    @journey[:entry_station] = entry_station
+    deduct(@journey.fare) if !@journey.empty?
+    @journey = Journey.new(entry_station)
   end
 
   def touch_out(exit_station)
-    @voyage = Journey.new if @voyage.nil?
-    @voyage.finish(exit_station)
-    deduct(@voyage.fare)
-    @voyage = nil
-    @journey[:exit_station] = exit_station
-    @journey_history << @journey
-    @journey = {}
+    @journey = Journey.new if @journey.nil?
+    @journey.finish(exit_station)
+    deduct(@journey.fare)
+    @journey = nil
   end
 
   def get_history
