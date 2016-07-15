@@ -15,6 +15,12 @@ describe JourneyLog do
       subject.start(station)
     end
 
+    it 'logs if current journey exists (touch in twice)' do
+      journey = JourneyLog.new(journey_class: Journey)
+      journey.start(station)
+      expect {journey.start(station)}.to change {journey.log.length}.by 1
+    end
+
   end
 
   describe '#finish' do
@@ -34,6 +40,18 @@ describe JourneyLog do
       journey.start(station)
       expect {journey.finish(station)}.to change {journey.log.length}.by 1
       expect(journey.log.length).to eq 2
+    end
+
+    it 'logs if current journey does not exists (touch out twice)' do
+      journey = JourneyLog.new(journey_class: Journey)
+      journey.finish(station)
+      expect {journey.finish(station)}.to change {journey.log.length}.by 1
+    end
+
+    it 'logs if current journey does not exists (touch out twice) two' do
+      allow(journey).to receive(:finish).with(exit_station: station)
+      subject.finish(station)
+      expect {subject.finish(station)}.to change {subject.log.length}.by 1
     end
   end
 
